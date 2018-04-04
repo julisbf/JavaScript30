@@ -7,53 +7,51 @@ to continue and finish it. After watched the solution video, learned how to acce
 ##### Original Solution
 
 ```javascript
-	function removeTransition(e) {
-	  if (e.propertyName !== 'transform') return;
-		e.target.classList.remove('playing');
-	 }
+function removeTransition(e) {
+  if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+ }
 
-  function playSound(e) {
-    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
-    if (!audio) return;
-
-    key.classList.add('playing');
-    audio.currentTime = 0;
-    audio.play();
-  }
-
-  const keys = Array.from(document.querySelectorAll('.key'));
-  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-  window.addEventListener('keydown', playSound);
+function playSound(e) {
+  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+  const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+  if (!audio) return;
+  
+  key.classList.add('playing');
+  audio.currentTime = 0;
+  audio.play();
+}
+const keys = Array.from(document.querySelectorAll('.key'));
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+window.addEventListener('keydown', playSound);
 ```
 
 ##### My Solution
 
 ```javascript
 	
-	window.addEventListener("keydown", playSound);
-	window.addEventListener("keyup", playSound);
+window.addEventListener("keydown", playSound);
+window.addEventListener("keyup", playSound);
 
-	function playSound(evt) {
+function playSound(evt) {
 
-		//keyCode is deprecated, that's why need to get its value
-		const pressKey = evt.key.toUpperCase().charCodeAt(0).toString(); 
-		const key = document.querySelector(`div[data-key="${pressKey}"`);
+//keyCode is deprecated, that's why need to get its value
+  const pressKey = evt.key.toUpperCase().charCodeAt(0).toString(); 
+  const key = document.querySelector(`div[data-key="${pressKey}"`);
 
-		if (!key) return;
+  if (!key) return;
 
-		if (evt.type === "keydown") {
-			key.classList.add("playing");
-			getSound(pressKey);
-		} else {
-			key.classList.remove("playing");
-		}
-	}
+  if (evt.type === "keydown") {
+   key.classList.add("playing");
+   getSound(pressKey);
+  } else {
+   key.classList.remove("playing");
+  }
+ }
 
-	function getSound(key) {
-		const sound = document.querySelector(`audio[data-key="${key}"]`); // Access tag attibute
-		sound.currentTime = 0; // Reset audio current time
-		sound.play();	
-		
-	}
+function getSound(key) {
+  const sound = document.querySelector(`audio[data-key="${key}"]`); // Access tag attibute
+  sound.currentTime = 0; // Reset audio current time
+  sound.play();	
+}
 ```
