@@ -7,8 +7,8 @@ How to reset the degrees from 360 to 0 without weird jump?
 
 ##### Original Solution
 
-![Original solution](/images/original.png)
+![](images/original.png?raw=true)
 
 ##### My Solution
 
-![My solution](/images/mine.png)
+![](images/mine.png?raw=true)
