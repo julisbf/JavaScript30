@@ -66,7 +66,6 @@
       transform-origin: 100%;
       transform: rotate(0deg);
       transition: all 0.05s;
-      transition-timing-function: ease;
       transition-timing-function: cubic-bezier(.38,.32,0,1.52);
     }
 
@@ -77,6 +76,13 @@
 
     .second-hand {
       background-color: #f28144;
+    }
+
+    .notransition {
+      -webkit-transition: none !important;
+      -moz-transition: none !important;
+      -o-transition: none !important;
+      transition: none !important;
     }
 
   </style>
@@ -90,9 +96,9 @@
     let seconds = nowTime.getSeconds();
     let degSec = ((seconds / 60) * 360) + 90;
     let minutes = nowTime.getMinutes();
-    let degMins = ((minutes / 60) * 360) + 90;
-    let hour = nowTime.getHours();
-    let degHour = hour * 30 + 90;
+    let degMins = (minutes < 46) ? ((minutes / 60) * 360) + 90 : (minutes - 45) * 6; // 6 = 360deg / 60mins
+    let hour = (nowTime.getHours() <= 12) ? nowTime.getHours() : nowTime.getHours() - 12;
+    let degHour = hour * 30 + 90; // 30 = (360deg / 12hrs)
     degHour += Math.floor(minutes / 2);
 
 
@@ -103,9 +109,10 @@
     window.setInterval(changeClock, 1000);
 
     function changeClock() {
-      degSec += 6;
-      secondHand.style.transform = `rotate(${degSec}deg)`;
+
       if (seconds === 59) {
+        degSec += 6;
+        secondHand.style.transform = `rotate(${degSec}deg)`;
         degMins += 6;
         minHand.style.transform = `rotate(${degMins}deg)`;
         if (minutes % 2 === 0) {
@@ -117,8 +124,19 @@
           minutes = 0;   
         }
         seconds = 0;
+      }else {
+        if(degSec === 360) {
+          secondHand.classList.add('notransition');
+          degSec = 6;
+        } else {
+          degSec += 6;
+        }
+        secondHand.style.transform = `rotate(${degSec}deg)`;
+        seconds++;
+        if (degSec === 12) {
+          secondHand.classList.remove('notransition');
+        }
       }
-      seconds++;
     }
 
   </script>
