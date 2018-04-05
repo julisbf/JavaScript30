@@ -11,10 +11,4 @@ How to reset the degrees from 360 to 0 without weird jump?
 
 ##### My Solution
 
-<<<<<<< HEAD
 ![](images/mine.png?raw=true)
-||||||| merged common ancestors
-![My solution](/images/mine.png)
-=======
-![](images/mine.png?raw=true)
->>>>>>> 9d1edf6baa3ee897e82fc5ec25b2841c9a3ed817
