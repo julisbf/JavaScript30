@@ -40,16 +40,26 @@
       <input type="text" name="item" placeholder="Item Name" required>
       <input type="submit" value="+ Add Item">
     </form>
+    <div class="extras">
+      <button class="btn" id="delete-btn">Delete All</button>
+      <button class="btn" id="select-btn">Select All</button>
+    </div>
   </div>
 
   <script>
     const addItems = document.querySelector('.add-items');
     const itemsList = document.querySelector('.plates');
     const items = JSON.parse(localStorage.getItem('list')) || [];
+    const deleteBtn = document.querySelector('#delete-btn');
+    const selectBtn = document.querySelector('#select-btn');
+    let selectedAll = false;
 
     addItems.addEventListener('submit', addItem);
     itemsList.addEventListener('click', toggleList);
+    deleteBtn.addEventListener('click', deleteList);
+    selectBtn.addEventListener('click', selectAllItems);
     insertItemsToList(items, itemsList);
+    checkSelectedItems(items);
 
     function addItem(evt) {
       evt.preventDefault(); // Prevents page to reload, since it's a form
@@ -83,7 +93,38 @@
       const index = elem.dataset.index;
 
       items[index].done = !items[index].done;
+      checkSelectedItems(items);
       localStorage.setItem('list', JSON.stringify(items));
+    }
+
+    /*Clear all the list and reset the localStorage*/
+    function deleteList() {
+
+      items.length = 0;
+      localStorage.removeItem('list');
+      insertItemsToList(items, itemsList);
+    }
+    /*Allows check or uncheck all items in the list*/
+    function selectAllItems() {
+      if (items.length === 0) return;
+
+      selectedAll = !selectedAll;
+      this.innerHTML = selectedAll ? 'Unselect All' : 'Select All';
+
+      items.map(item => item.done = selectedAll);
+      insertItemsToList(items, itemsList);
+
+    }
+
+    /*Checks if all elements have been checked, change the button text and selectedAll value */
+    function checkSelectedItems(list) {
+      if (list.every(item => item.done === true)) {
+        selectedAll = true;
+        selectBtn.innerHTML = 'Unselect All';
+      } else {
+        selectedAll = false;
+        selectBtn.innerHTML = 'Select All';
+      }
     }
   </script>
 
