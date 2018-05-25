@@ -48,6 +48,7 @@
     const items = JSON.parse(localStorage.getItem('list')) || [];
 
     addItems.addEventListener('submit', addItem);
+    itemsList.addEventListener('click', toggleList);
     insertItemsToList(items, itemsList);
 
     function addItem(evt) {
@@ -68,11 +69,21 @@
       listSelector.innerHTML = list.map((item, index) => {
         return `
         <li>
-          <input type="checkbox" data-index=${index} id="item${index}" />
+          <input type="checkbox" data-index=${index} id="item${index}" ${item.done ? 'checked':''}/>
           <label for="item${index}">${item.text}</label>
         </li>
     `;
       }).join('');
+    }
+
+    /*When toggle an item, it updates the localStorage*/
+    function toggleList(evt) {
+      if (!evt.target.matches('input')) return;
+      const elem = evt.target;
+      const index = elem.dataset.index;
+
+      items[index].done = !items[index].done;
+      localStorage.setItem('list', JSON.stringify(items));
     }
   </script>
 
