@@ -60,6 +60,18 @@
       insertItemsToList(items, itemsList);
       this.reset(); //Clear the form
     }
+
+    /*Receives params so can be use in different places*/
+    function insertItemsToList(list = [], listSelector) {
+      listSelector.innerHTML = list.map((item, index) => {
+        return `
+        <li>
+          <input type="checkbox" data-index=${index} id="item${index}" />
+          <label for="item${index}">${item.text}</label>
+        </li>
+    `;
+      }).join('');
+    }
   </script>
 
 
