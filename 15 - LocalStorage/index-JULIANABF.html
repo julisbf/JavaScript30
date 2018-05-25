@@ -45,9 +45,10 @@
   <script>
     const addItems = document.querySelector('.add-items');
     const itemsList = document.querySelector('.plates');
-    const items = [];
+    const items = JSON.parse(localStorage.getItem('list')) || [];
 
     addItems.addEventListener('submit', addItem);
+    insertItemsToList(items, itemsList);
 
     function addItem(evt) {
       evt.preventDefault(); // Prevents page to reload, since it's a form
@@ -58,6 +59,7 @@
 
       items.push(item);
       insertItemsToList(items, itemsList);
+      localStorage.setItem('list', JSON.stringify(items));
       this.reset(); //Clear the form
     }
 
